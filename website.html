@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+<link rel = "stylesheet" href = "style2.css">
+</head>
+
+<body>
+
+<section id = "header">
+<h4>Welcome to School Management System</h4>
+</section>
+<section id = "class_master">
+<h5>Class Master Maintenance</h5>
+</section>
+
+<section id = "box">
+	<form action = "connect.php" method = "post">
+		<input type = "text" placeholder = "Enter class" name = "class">
+		<input type = "text" placeholder = "Enter Section" name = "section">
+		<div>
+			<button onclick = "myfunction1()" class = "normal">Add</button>
+			<button onclick = "myfunction2()" class = "normal">Update</button>
+			<button onclick = "myfunction3()" class = "normal">Delete</button>
+		</div>
+	</form>
+</section>
+
+<script>
+function myfunction1()
+{
+	confirm("Are you sure you want to add value?"); 
+}
+
+function myfunction2()
+{
+	confirm("Are you sure you want to update a value?");
+}
+
+function myfunction3()
+{
+	confirm("Are you sure you want to delete a value?");
+}
+</script>
+
+</body>
+</html>
