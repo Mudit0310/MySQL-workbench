@@ -1,0 +1,90 @@
+#include <iostream>
+#include<mysql.h>
+#include<mysqld_error.h>
+using namespace std;
+
+char HOST[] = "localhost";
+char USER[] = "root";
+char PASS[] = "mudit0310";
+
+int main() 
+{
+	MYSQL *obj;
+	
+	int CLASS;
+	char SECTION[10];
+	
+	bool ProgramIsOpened = true;
+	int answer;
+	char* consult;
+	char* sentence;
+	string sentence_aux;
+	
+	if(!(obj = mysql_init(0)))
+	{
+		cout<<"ERROR: MYSQL object could not be created"<<endl;
+	}
+	
+	else
+	{
+		if(!mysql_real_connect(obj,HOST,USER,PASS,"smsdb",3306,NULL,0))	
+		{
+			cout<<"ERROR: some database info is wrong or do not exist"<<endl;
+			cout<<mysql_error(obj)<<endl;
+		}
+		else
+		{
+			cout<<"Logged in"<<endl<<endl;
+			
+			while(ProgramIsOpened)
+			{
+				cout<<"CLASS:";
+				cin>>CLASS;
+				
+				cout<<"SECTION:";
+				cin>>SECTION;
+				
+				sentence_aux = "INSERT INTO CLASS_MSTR VALUES (CLASS,SECTION)";
+				sentence = new char[sentence_aux.length()+1];
+				strcpy(sentence,sentence_aux.c_str());
+				
+				consult = new char[strlen(sentence) + sizeof(int) + strlen(SECTION)];
+				sprintf(consult,sentence,CLASS,SECTION);
+				
+				if(mysql_ping(obj))
+				{
+					cout<<"ERROR: Impossible to connect"<<endl;
+					cout<<mysql_error(obj)<<endl;
+				}
+				
+				if(mysql_query(obj,consult))
+				{
+					cout<<"ERROR: "<<mysql_error(obj)<<endl;
+					rewind(stdin);
+					getchar();
+				}
+				
+				else
+				{
+					cout<<endl<<"Info added correctly"<<endl;
+				}
+				
+				mysql_store_result(obj);
+				
+				cout<<endl<<"Another?"<<endl;
+				cout<<"[1]:YES "<<endl;
+				cout<<"[0]:NO "<<endl;
+				cout<<"Answer: ";
+				cin>>answer;
+				
+				if(answer == 0)
+				{
+					ProgramIsOpened = false;
+				}
+				cout<<endl;
+			}
+		}
+	}
+	cout<<"BYE!"<<endl;
+	return 0;
+}
